@@ -1,8 +1,19 @@
 import { useState } from 'react'
 import QRCode from 'qrcode'
+import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase.js'
 import SliitMemberFields from '../components/SliitMemberFields.jsx'
 import OutsideGuestFields from '../components/OutsideGuestFields.jsx'
+
+const FACTS = [
+  { k: 'Venue', v: 'SLIIT Auditorium' },
+  { k: 'Attire', v: 'Formal / Lounge' },
+  { k: 'Date & Time', v: 'To be announced' },
+]
+
+function Rule({ className = '' }) {
+  return <div className={`rule-gold ${className}`} />
+}
 
 export default function Register() {
   const [category, setCategory] = useState(null)
@@ -99,7 +110,10 @@ export default function Register() {
         payload: buildPayload(),
       })
       if (error) throw error
-      const dataUrl = await QRCode.toDataURL(data.id)
+      const dataUrl = await QRCode.toDataURL(data.id, {
+        margin: 1, width: 480,
+        color: { dark: '#3a2560', light: '#ffffff' },
+      })
       setQrDataUrl(dataUrl)
       setConfirmed(data)
     } catch (err) {
@@ -111,42 +125,75 @@ export default function Register() {
 
   if (confirmed) {
     return (
-      <div className="container">
-        <div className="card confirm">
-          <h2>You're registered! 🎉</h2>
-          <p>{confirmed.full_name}</p>
-          <div className="regnum">#{confirmed.reg_number}</div>
-          <div className="qr-wrap">
-            {qrDataUrl && <img src={qrDataUrl} alt="QR code" />}
+      <main className="container">
+        <section className="surface-card confirm">
+          <div className="confirm-head">
+            <p className="kicker">Registration confirmed</p>
+            <h1 className="name">{confirmed.full_name}</h1>
+            <p className="num">#{confirmed.reg_number}</p>
           </div>
-          <p className="instructions">
-            Save a screenshot of this QR code, or remember your registration number —
-            either will be used for check-in at the event.
-          </p>
-          <button className="btn btn-block" onClick={() => window.location.reload()}>
-            Register another guest
-          </button>
-        </div>
-      </div>
+          <div className="confirm-body">
+            {qrDataUrl && (
+              <div className="qr-wrap">
+                <img src={qrDataUrl} alt="QR check-in pass" width={224} height={224} />
+              </div>
+            )}
+            <p className="instructions">
+              Save a screenshot of this QR code, or remember your registration number —
+              either one will be used to check you in at the entrance.
+            </p>
+            <button className="btn btn-block" onClick={() => window.location.reload()}>
+              Register another guest
+            </button>
+          </div>
+        </section>
+      </main>
     )
   }
 
   return (
-    <div className="container">
-      <Banner />
+    <main className="container">
+      <header className="landing-header">
+        <p className="landing-kicker">Rotaract Club of SLIIT</p>
+        <div className="landing-edition">
+          <span className="num">14</span>
+          <span className="suf">TH</span>
+        </div>
+        <h1 className="landing-title">
+          Installation<br />Ceremony
+        </h1>
+        <div className="landing-divider">
+          <Rule />
+          <span className="star">✦</span>
+          <Rule />
+        </div>
+        <p className="landing-invite">
+          The incoming President and the Board of Officials graciously invite you to join us
+          for the evening. Complete the form below to reserve your seat and receive your QR check-in pass.
+        </p>
+      </header>
 
-      <div className="category-tabs">
+      <div className="landing-facts">
+        {FACTS.map((fact) => (
+          <div key={fact.k} className="fact">
+            <p className="k">{fact.k}</p>
+            <p className="v">{fact.v}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="landing-choices">
         <button
-          className={'category-tab' + (category === 'sliit_member' ? ' active' : '')}
+          className={'choice-btn' + (category === 'sliit_member' ? ' active' : '')}
           onClick={() => { setCategory('sliit_member'); setForm({}); setError('') }}
         >
-          I'm a SLIIT Member
+          I'm a SLIIT member
         </button>
         <button
-          className={'category-tab' + (category === 'outside_sliit' ? ' active' : '')}
+          className={'choice-btn' + (category === 'outside_sliit' ? ' active' : '')}
           onClick={() => { setCategory('outside_sliit'); setForm({}); setError('') }}
         >
-          I'm a Guest (Outside SLIIT)
+          I'm a guest (outside SLIIT)
         </button>
       </div>
 
@@ -158,25 +205,19 @@ export default function Register() {
 
           {error && <div className="alert alert-error">{error}</div>}
 
-          <button className="btn btn-block" type="submit" disabled={submitting}>
-            {submitting ? 'Submitting...' : 'Submit Registration'}
-          </button>
+          <div style={{ marginTop: 18 }}>
+            <button className="btn btn-block" type="submit" disabled={submitting}>
+              {submitting ? 'Submitting…' : 'Confirm my seat'}
+            </button>
+          </div>
         </form>
       )}
-    </div>
-  )
-}
 
-function Banner() {
-  return (
-    <div className="banner">
-      <h1>13th Installation Ceremony of the Rotaract Club of SLIIT</h1>
-      <p className="invite">Rtr. Yasith Ardithya and his Board of Officials graciously invite you to join us.</p>
-      <p>Date: 25th October 2024</p>
-      <p>Time: 2:00 PM – 5:00 PM</p>
-      <p>Venue: SLIIT Auditorium</p>
-      <p>Attire: Formal / Lounge wear</p>
-      <p className="note">Registration closes 21st August 2024, 11:59 PM.</p>
-    </div>
+      <footer style={{ marginTop: 48, textAlign: 'center' }}>
+        <Link to="/admin/login" style={{ color: 'var(--muted-foreground)', fontSize: 13, textDecoration: 'none' }}>
+          Committee check-in dashboard
+        </Link>
+      </footer>
+    </main>
   )
 }

@@ -23,27 +23,23 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-top">
-          <span className="auth-tabs">
-            <span className="auth-tab active">Log in</span>
-            <span className="auth-tab-sep"> or </span>
-            <span className="auth-tab">Sign up</span>
-          </span>
-          <Link to="/register" className="auth-close" aria-label="Close">&times;</Link>
+    <main className="auth-page">
+      <section className="auth-card">
+        <p className="auth-kicker">Rotaract Club of SLIIT</p>
+        <h1 className="auth-title">Committee sign in</h1>
+        <div className="auth-divider">
+          <div className="rule rule-gold" />
+          <span className="star">✦</span>
+          <div className="rule rule-gold" />
         </div>
 
-        <h2 className="auth-welcome">Welcome to the Rotaract Club of SLIIT</h2>
-        <p className="auth-sub">Sign in to the check-in dashboard</p>
-
-        <form onSubmit={handleSubmit} noValidate>
+        <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <div className="field">
             <label htmlFor="email">Email address</label>
             <input
               id="email"
               type="email"
-              placeholder="Enter email address"
+              placeholder="you@rotaractsliit.org"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -52,20 +48,11 @@ export default function AdminLogin() {
           </div>
 
           <div className="field">
-            <div className="label-row">
-              <label htmlFor="password">Password</label>
-              <a
-                className="forgot"
-                href="#reset"
-                onClick={(e) => e.preventDefault()}
-              >
-                Reset password
-              </a>
-            </div>
+            <label htmlFor="password">Password</label>
             <input
               id="password"
               type="password"
-              placeholder="Enter password"
+              placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -75,25 +62,18 @@ export default function AdminLogin() {
 
           {error && <div className="alert alert-error">{error}</div>}
 
-          <label className="check-row">
-            <input type="checkbox" defaultChecked />
-            Remember this device for 30 days
-          </label>
-
-          <button className="btn btn-block" type="submit" disabled={loading}>
-            {loading ? 'Signing in…' : 'Sign In'}
-          </button>
+          <div style={{ marginTop: 20 }}>
+            <button className="btn btn-block" type="submit" disabled={loading}>
+              {loading ? 'Signing in…' : 'Sign in'}
+            </button>
+          </div>
         </form>
 
-        <p className="auth-terms">
-          By logging in, I agree and accept the Terms of Service
+        <p className="auth-back">
+          Access is granted by the organising committee.{' '}
+          <Link to="/register">Back to registration</Link>
         </p>
-
-        <p className="auth-help">
-          Access is granted by the organizing committee.{' '}
-          <Link to="/register">← Registration form</Link>
-        </p>
-      </div>
-    </div>
+      </section>
+    </main>
   )
 }
