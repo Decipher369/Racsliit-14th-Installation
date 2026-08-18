@@ -82,6 +82,69 @@ Open http://localhost:5173/register — submit a test registration, then log int
 
 ---
 
+## Deploy to Cloudflare Pages (current host)
+
+Live: https://racsliit-14th-installation.pages.dev (Cloudflare Pages, free tier).
+
+Because Vite inlines `import.meta.env.VITE_*` at BUILD time, the two Supabase
+values are baked into the JS bundle locally — Cloudflare just serves the static
+`dist/` directory, so no env vars are configured on Cloudflare itself.
+
+Steps to redeploy after a code change:
+
+```
+# 1. build with the real values from .env (baked into dist/)
+set -a && . ./.env && set +a && npm run build
+
+# 2. upload dist/ (needs wrangler installed + logged in once: `wrangler login`)
+wrangler pages deploy dist --project-name=racsliit-14th-installation --branch=main
+```
+
+Deep links work because `public/_redirects` (copied into `dist/` by Vite) rewrites
+`/*` to `/index.html` with status 200.
+
+> Veracity note: the `<title>` still says "13th Installation" (checked in the
+> served HTML 2026-08-18) — worth correcting to "14th" before it goes live-wide.
+
+---
+
+## Deploy to Vercel (alternative — NOT currently used)
+
+The same project is also Vercel-ready:
+
+- `vercel.json` adds an SPA rewrite so `/register`, `/admin`, and `/admin/login`
+  survive a hard refresh (they would otherwise 404 on Vercel's static hosting).
+- Framework is auto-detected: Build = `vite build`, Output dir = `dist`.
+
+One-time prerequisites on Vercel:
+1. Make sure the deploying account has an ACTIVE plan. The team
+   `Shagash's projects` was suspended pending billing the last time we tried
+   (Vercel returned `402 Your account has been suspended`). Either add a valid
+   payment method at
+   https://vercel.com/teams/shagash-s-projects/settings/billing
+   or log in with a scope that is not suspended.
+2. Add the two build-time environment variables to the Vercel project
+   (Settings → Environment Variables), with values copied from local `.env`:
+
+   ```
+   VITE_SUPABASE_URL=https://dmqbsziuprusrcmsujcp.supabase.co
+   VITE_SUPABASE_ANON_KEY=<the legacy anon JWT from .env>
+   ```
+   > These are baked in at build time by Vite (`import.meta.env.VITE_*`), so
+   > they MUST exist before the production build runs.
+
+From the project root (once the account is active):
+
+```
+vercel link --yes --project racsliit-14th-installation
+# create the two VITE_* vars (production) if not added in the dashboard:
+vercel env add VITE_SUPABASE_URL production
+vercel env add VITE_SUPABASE_ANON_KEY production
+vercel deploy --prod
+```
+
+---
+
 ## Troubleshooting
 
 - **`Could not find the table ... schema cache`** → Step 1 hasn't been run yet.
