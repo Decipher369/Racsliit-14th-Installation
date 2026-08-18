@@ -316,6 +316,7 @@ details.optional .inner { margin-top: 14px; }
 .confirm-head .name { margin-top: 12px; font-family: var(--font-display); font-size: 34px; font-weight: 600; color: oklch(98% .008 90); line-height: 1.1; }
 .confirm-head .num { margin-top: 10px; font-family: var(--font-display); font-size: 56px; line-height: 1; font-weight: 600; color: var(--gold); }
 .confirm-body { padding: 30px 28px; text-align: center; }
+.card-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
 .confirm-body .qr-wrap {
   display: inline-block;
   background: var(--card);
