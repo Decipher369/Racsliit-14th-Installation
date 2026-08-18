@@ -3,14 +3,21 @@ import QRCode from 'qrcode'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase.js'
 import { drawCard, triggerDownload } from '../lib/cardMaker.js'
+import { EVENT_AT } from '../lib/event.js'
+import Countdown from '../components/Countdown.jsx'
 import SliitMemberFields from '../components/SliitMemberFields.jsx'
 import OutsideGuestFields from '../components/OutsideGuestFields.jsx'
 
-const FACTS = [
-  { k: 'Venue', v: 'SLIIT Auditorium' },
-  { k: 'Attire', v: 'Formal / Lounge' },
-  { k: 'Date & Time', v: 'To be announced' },
-]
+function friendlyError(msg) {
+  const m = msg || ''
+  if (m.includes('DUPLICATE_NIC') || /duplicate key value .*registrations_nic_unique/.test(m)) {
+    return 'This NIC is already registered. If you think this is a mistake, please contact the committee.'
+  }
+  if (m.includes('DUPLICATE_CONTACT') || /duplicate key value .*registrations_contact_unique/.test(m)) {
+    return 'This contact number is already registered. If you think this is a mistake, please contact the committee.'
+  }
+  return m || 'Registration failed.'
+}
 
 function Rule({ className = '' }) {
   return <div className={`rule-gold ${className}`} />
@@ -24,6 +31,15 @@ export default function Register() {
   const [confirmed, setConfirmed] = useState(null)
   const [qrDataUrl, setQrDataUrl] = useState('')
   const [cardErr, setCardErr] = useState('')
+
+  const dateLabel = EVENT_AT
+    ? new Date(EVENT_AT).toLocaleString([], { dateStyle: 'full', timeStyle: 'short' })
+    : 'To be announced'
+  const facts = [
+    { k: 'Venue', v: 'SLIIT Auditorium' },
+    { k: 'Attire', v: 'Formal / Lounge' },
+    { k: 'Date & Time', v: dateLabel },
+  ]
 
   function set(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -119,7 +135,7 @@ export default function Register() {
       setQrDataUrl(dataUrl)
       setConfirmed(data)
     } catch (err) {
-      setError('Registration failed: ' + (err.message || 'unknown error'))
+      setError('Registration failed: ' + friendlyError(err.message))
     } finally {
       setSubmitting(false)
     }
@@ -192,6 +208,7 @@ export default function Register() {
           <span className="star">✦</span>
           <Rule />
         </div>
+        <Countdown target={EVENT_AT} />
         <p className="landing-invite">
           The incoming President and the Board of Officials graciously invite you to join us
           for the evening. Complete the form below to reserve your seat and receive your QR check-in pass.
@@ -199,7 +216,7 @@ export default function Register() {
       </header>
 
       <div className="landing-facts">
-        {FACTS.map((fact) => (
+        {facts.map((fact) => (
           <div key={fact.k} className="fact">
             <p className="k">{fact.k}</p>
             <p className="v">{fact.v}</p>
