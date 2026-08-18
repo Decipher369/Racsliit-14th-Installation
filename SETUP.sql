@@ -103,6 +103,11 @@ declare
   dup       public.registrations%rowtype;
   row       public.registrations;
 begin
+  -- Sri Lankan NIC: 9 digits + V/X (old) or 12 digits (new). Reject junk.
+  if v_nic is not null and v_nic !~ '^(\d{9}[VvXx]|\d{12})$' then
+    raise exception 'INVALID_NIC: NIC format is invalid.';
+  end if;
+
   if v_nic is not null then
     select * into dup
       from public.registrations

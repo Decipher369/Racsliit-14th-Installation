@@ -10,6 +10,9 @@ import OutsideGuestFields from '../components/OutsideGuestFields.jsx'
 
 function friendlyError(msg) {
   const m = msg || ''
+  if (m.includes('INVALID_NIC') || m.includes('invalid NIC format') || m.includes('invalid_nic')) {
+    return 'Please enter a valid NIC — 9 digits ending in V or X, or 12 digits.'
+  }
   if (m.includes('DUPLICATE_NIC') || /duplicate key value .*registrations_nic_unique/.test(m)) {
     return 'This NIC is already registered. If you think this is a mistake, please contact the committee.'
   }
@@ -46,6 +49,13 @@ export default function Register() {
   }
 
   const empty = (v) => v === undefined || v === null || String(v).trim() === ''
+
+// Sri Lankan NIC: 9 digits + V/X (old format) or 12 digits (new format).
+// Rejects ASCII junk like "asdf1234" while allowing both official forms.
+const NIC_RE = /^(?:\d{9}[vVxX]|\d{12})$/
+function validNIC(v) {
+  return empty(v) || NIC_RE.test(String(v).trim())
+}
 
   function buildPayload() {
     const base = {
@@ -111,6 +121,9 @@ export default function Register() {
     }
     if (form.parking_inside && empty(form.vehicle_number)) req.push('vehicle_number')
     if (req.length) throw new Error('Please fill in all required fields: ' + req.join(', '))
+    if (form.nic_number && !validNIC(form.nic_number)) {
+      throw new Error('Please enter a valid NIC — 9 digits ending in V or X, or 12 digits.')
+    }
   }
 
   async function handleSubmit(e) {
