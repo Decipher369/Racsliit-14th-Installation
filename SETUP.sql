@@ -1,5 +1,5 @@
 -- ============================================================
--- Rotaract Club of SLIIT — 13th Installation Registration System
+-- Rotaract Club of SLIIT — 14th Installation Registration System
 -- Supabase schema. Run this in the SQL Editor of:
 --   https://supabase.com/dashboard/project/dmqbsziuprusrcmsujcp
 -- Paste the whole file, run it. Safe to run once only (guard below).

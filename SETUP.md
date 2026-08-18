@@ -103,8 +103,8 @@ wrangler pages deploy dist --project-name=racsliit-14th-installation --branch=ma
 Deep links work because `public/_redirects` (copied into `dist/` by Vite) rewrites
 `/*` to `/index.html` with status 200.
 
-> Veracity note: the `<title>` still says "13th Installation" (checked in the
-> served HTML 2026-08-18) — worth correcting to "14th" before it goes live-wide.
+> Veracity note: `index.html` ships the correct `<title>"14th Installation"`.
+> (Older build artifacts may still say "13th" — always rebuild before deploying.)
 
 ---
 
