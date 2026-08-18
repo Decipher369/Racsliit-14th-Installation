@@ -95,11 +95,9 @@ export default function Register() {
     }
     setSubmitting(true)
     try {
-      const { data, error } = await supabase
-        .from('registrations')
-        .insert(buildPayload())
-        .select()
-        .single()
+      const { data, error } = await supabase.rpc('register_guest', {
+        payload: buildPayload(),
+      })
       if (error) throw error
       const dataUrl = await QRCode.toDataURL(data.id)
       setQrDataUrl(dataUrl)

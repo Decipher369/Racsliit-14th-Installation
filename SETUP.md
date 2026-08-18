@@ -8,15 +8,23 @@ https://supabase.com/dashboard/project/dmqbsziuprusrcmsujcp
 
 ---
 
-## Status today (verified 2026-08-18)
+## Status (verified 2026-08-18)
 
 | Item | State |
 |------|-------|
-| Project reachable | OK (server responds 401/200) |
-| Auth health with publishable key | OK (HTTP 200) |
-| `registrations` table | MISSING (PGRST205 — nothing created yet) |
-| `.env` local file | Created, URL + publishable key filled in |
-| Admin login user | NOT created |
+| Project reachable | OK |
+| Auth health | OK (HTTP 200) |
+| `registrations` table + RLS policies | EXISTS |
+| `register_guest()` function | EXISTS — secure public registration entry point |
+| `.env` anon key | Legacy JWT (role `anon`) — works through RLS |
+| Admin login user | NOT created yet (Step 4 below) |
+
+> **2026-08-18 resolution:** public form submissions now go through a
+> `security definer` function `register_guest(jsonb)` instead of a raw
+> `insert().select()`. Direct table writes/reads with the anon key were blocked
+> by RLS because anon has no SELECT policy (inserting works, but reading the row
+> back — which `insert().select()` requires — does not). The function inserts and
+> returns the row while the table itself stays unreadable by the public.
 
 ---
 
@@ -56,10 +64,12 @@ with all columns.
 `.env` already contains:
 ```
 VITE_SUPABASE_URL=https://dmqbsziuprusrcmsujcp.supabase.co
-VITE_SUPABASE_ANON_KEY=sb_publishable_yv8H2aOo6oUQ-bPkuxmwNQ_d878WbP5
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIs... (legacy anon-key JWT; role=anon)
 ```
-This file is gitignored — it will NOT be committed. On Vercel/Netlify configure the
-same two variables in the project's Environment Variables.
+> Use the legacy anon-key JWT (role `anon`), not the newer `sb_publishable_…`
+> format — the legacy key is the one that passes the RLS path in this project.
+> This file is gitignored — it will NOT be committed. On Vercel/Netlify configure
+> the same two variables in the project's Environment Variables.
 
 ## Step 4 — Local test
 
