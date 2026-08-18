@@ -2,7 +2,7 @@ import { useState } from 'react'
 import QRCode from 'qrcode'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase.js'
-import { drawCard, buildWalletPass, triggerDownload } from '../lib/cardMaker.js'
+import { drawCard, triggerDownload } from '../lib/cardMaker.js'
 import SliitMemberFields from '../components/SliitMemberFields.jsx'
 import OutsideGuestFields from '../components/OutsideGuestFields.jsx'
 
@@ -23,7 +23,6 @@ export default function Register() {
   const [error, setError] = useState('')
   const [confirmed, setConfirmed] = useState(null)
   const [qrDataUrl, setQrDataUrl] = useState('')
-  const [passBusy, setPassBusy] = useState(false)
   const [cardErr, setCardErr] = useState('')
 
   function set(field, value) {
@@ -143,27 +142,6 @@ export default function Register() {
     }
   }
 
-  async function addToAppleWallet() {
-    if (!confirmed || passBusy) return
-    setPassBusy(true)
-    setCardErr('')
-    try {
-      const { blob, filename } = await buildWalletPass({
-        full_name: confirmed.full_name,
-        reg_number: confirmed.reg_number,
-        category: confirmed.category,
-        food: confirmed.food_preference,
-        id: confirmed.id,
-        qrDataUrl,
-      })
-      triggerDownload(blob, filename)
-    } catch (err) {
-      setCardErr('Could not create the Wallet pass: ' + (err.message || 'unknown error'))
-    } finally {
-      setPassBusy(false)
-    }
-  }
-
   if (confirmed) {
     return (
       <main className="container">
@@ -180,14 +158,11 @@ export default function Register() {
               </div>
             )}
             <p className="instructions">
-              Save a screenshot of this QR code, or remember your registration number —
-              either one will be used to check you in at the entrance.
+              Download your pass as a card image, save a screenshot of this QR code,
+              or remember your registration number — any of these is used to check you in at the entrance.
             </p>
             <div className="card-actions">
-              <button className="btn" onClick={addToAppleWallet} disabled={passBusy}>
-                {passBusy ? 'Preparing…' : 'Add to Apple Wallet'}
-              </button>
-              <button className="btn btn-ghost" onClick={downloadCardImage}>
+              <button className="btn" onClick={downloadCardImage}>
                 Download card image
               </button>
             </div>
