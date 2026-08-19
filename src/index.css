@@ -47,7 +47,8 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   background: var(--gradient-veil);
-  background-attachment: fixed;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
   overflow-x: hidden;
 }
 
