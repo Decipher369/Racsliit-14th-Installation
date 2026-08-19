@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import QRCode from 'qrcode'
-import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase.js'
 import { drawCard, triggerDownload } from '../lib/cardMaker.js'
 import { EVENT_AT } from '../lib/event.js'
@@ -268,11 +267,6 @@ function validNIC(v) {
         </form>
       )}
 
-      <footer style={{ marginTop: 48, textAlign: 'center' }}>
-        <Link to="/admin/login" style={{ color: 'var(--muted-foreground)', fontSize: 13, textDecoration: 'none' }}>
-          Committee check-in dashboard
-        </Link>
-      </footer>
     </main>
   )
 }

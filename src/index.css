@@ -78,22 +78,22 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 10px;
+  gap: 14px;
   margin-top: 28px;
 }
 .landing-edition .num {
   font-family: var(--font-display);
-  font-size: 96px;
+  font-size: 144px;
   line-height: .9;
   font-weight: 600;
   color: var(--gilded);
 }
 .landing-edition .suf {
   font-family: var(--font-display);
-  font-size: 34px;
+  font-size: 54px;
   line-height: .9;
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   color: var(--gilded);
 }
 .landing-title {
@@ -542,9 +542,9 @@ img, video { max-width: 100%; height: auto; }
   .admin-header > div { flex-wrap: wrap; }
 
   /* scale hero type so it never clips on narrow screens */
-  .landing-edition { gap: 8px; margin-top: 22px; }
-  .landing-edition .num { font-size: 72px; }
-  .landing-edition .suf { font-size: 27px; }
+  .landing-edition { gap: 10px; margin-top: 22px; }
+  .landing-edition .num { font-size: 104px; }
+  .landing-edition .suf { font-size: 40px; }
   .landing-title { font-size: 32px; letter-spacing: .12em; }
   .landing-kicker { letter-spacing: .28em; font-size: 11px; }
   .landing-invite { font-size: 15px; }
@@ -600,7 +600,8 @@ img, video { max-width: 100%; height: auto; }
 
 /* phones */
 @media (max-width: 480px) {
-  .landing-edition .num { font-size: 60px; }
+  .landing-edition .num { font-size: 84px; }
+  .landing-edition .suf { font-size: 32px; }
   .landing-title { font-size: 27px; letter-spacing: .07em; }
   .landing-kicker { letter-spacing: .2em; }
   .auth-title { font-size: 28px; }
