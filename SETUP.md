@@ -180,3 +180,26 @@ Run `npm run typecheck` and `npm run build` to validate changes.
 The intro and forms can be previewed without Supabase credentials. Saving
 registrations and committee sign in require `VITE_SUPABASE_URL` and
 `VITE_SUPABASE_ANON_KEY` in `.env.local`, plus the database setup above.
+
+## Installation poster and registration layout
+
+The supplied `WavingPortfolioLanding` lives in
+`src/components/ui/waving-portfolio-landing.tsx`. Its `ceremony` variant uses
+separate desktop and phone compositions, retaining the rolling letters,
+animated rules, letter hover interactions, and replay badge. The ceremony
+variant omits the illustrated character, dice, random-letter storm, and label
+scrambling. Its larger gold edition number anchors both responsive layouts. No new
+packages or external image assets are needed. `CeremonyHero.tsx` supplies the
+purple, cream, and gold colors and begins the poster intro after the logo fades.
+Reduced-motion preferences render a static composition.
+
+The event starts **22 November 2026 at 4:00 PM Sri Lanka time**. The countdown
+source is `src/lib/event.js`, using `2026-11-22T16:00:00+05:30`.
+The visible date is fixed to the ceremony's local time rather than the visitor's
+browser time zone.
+
+The registration layout is scoped under `.installation-page` in `src/index.css`.
+Category selection, conditional member and parking fields, validation, Supabase
+submission, QR generation, and pass downloads retain their existing behavior.
+Inputs have associated labels and required markers; segmented controls expose
+their selected state. Both categories use one column on phones.

@@ -15,47 +15,47 @@ export default function SliitMemberFields({ form, set }) {
   return (
     <>
       <div className="field">
-        <label>Full Name</label>
-        <input type="text" value={form.full_name || ''} onChange={(e) => set('full_name', e.target.value)} />
+        <label htmlFor="full_name">Full Name <span aria-hidden="true">*</span></label>
+        <input id="full_name" name="full_name" required type="text" value={form.full_name || ''} onChange={(e) => set('full_name', e.target.value)} />
       </div>
 
       <div className="field">
-        <label>Contact Number / WhatsApp</label>
-        <input type="tel" value={form.contact_number || ''} onChange={(e) => set('contact_number', e.target.value)} />
+        <label htmlFor="contact_number">Contact Number / WhatsApp <span aria-hidden="true">*</span></label>
+        <input id="contact_number" name="contact_number" required type="tel" value={form.contact_number || ''} onChange={(e) => set('contact_number', e.target.value)} />
       </div>
 
       <div className="field">
-        <label>NIC Number</label>
-        <input type="text" value={form.nic_number || ''} onChange={(e) => set('nic_number', e.target.value)} />
+        <label htmlFor="nic_number">NIC Number <span aria-hidden="true">*</span></label>
+        <input id="nic_number" name="nic_number" required type="text" value={form.nic_number || ''} onChange={(e) => set('nic_number', e.target.value)} />
       </div>
 
       <div className="field">
-        <label>SLIIT Registration Number</label>
-        <input type="text" value={form.sliit_reg_number || ''} onChange={(e) => set('sliit_reg_number', e.target.value)} />
+        <label htmlFor="sliit_reg_number">SLIIT Registration Number <span aria-hidden="true">*</span></label>
+        <input id="sliit_reg_number" name="sliit_reg_number" required type="text" value={form.sliit_reg_number || ''} onChange={(e) => set('sliit_reg_number', e.target.value)} />
       </div>
 
       <div className="field">
-        <label>Faculty</label>
-        <select value={form.faculty || ''} onChange={(e) => set('faculty', e.target.value)}>
+        <label htmlFor="faculty">Faculty <span aria-hidden="true">*</span></label>
+        <select id="faculty" name="faculty" required value={form.faculty || ''} onChange={(e) => set('faculty', e.target.value)}>
           <option value="">Select faculty</option>
           {FACULTIES.map((f) => <option key={f} value={f}>{f}</option>)}
         </select>
       </div>
 
       <div className="field">
-        <label>Year</label>
-        <select value={form.year || ''} onChange={(e) => set('year', e.target.value)}>
+        <label htmlFor="year">Year <span aria-hidden="true">*</span></label>
+        <select id="year" name="year" required value={form.year || ''} onChange={(e) => set('year', e.target.value)}>
           <option value="">Select year</option>
           {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
         </select>
       </div>
 
       <div className="field">
-        <label>Are you a member of Rotaract?</label>
-        <div className="segment">
-          <button type="button" className={form.is_rotaract_member ? 'active' : ''}
+        <label id="are-you-a-member-of-rotaract">Are you a member of Rotaract?</label>
+        <div className="segment" role="group" aria-labelledby="are-you-a-member-of-rotaract">
+          <button type="button" aria-pressed={!!(form.is_rotaract_member)} className={form.is_rotaract_member ? 'active' : ''}
             onClick={() => set('is_rotaract_member', true)}>Yes</button>
-          <button type="button" className={form.is_rotaract_member === false ? 'active' : ''}
+          <button type="button" aria-pressed={!!(form.is_rotaract_member === false)} className={form.is_rotaract_member === false ? 'active' : ''}
             onClick={() => set('is_rotaract_member', false)}>No</button>
         </div>
       </div>
@@ -63,8 +63,8 @@ export default function SliitMemberFields({ form, set }) {
       {form.is_rotaract_member && (
         <>
           <div className="field">
-            <label>Position</label>
-            <select value={form.position || ''} onChange={(e) => set('position', e.target.value)}>
+            <label htmlFor="position">Position <span aria-hidden="true">*</span></label>
+            <select id="position" name="position" required value={form.position || ''} onChange={(e) => set('position', e.target.value)}>
               <option value="">Select position</option>
               <option value="board">Board member</option>
               <option value="general">General member</option>
@@ -73,8 +73,8 @@ export default function SliitMemberFields({ form, set }) {
           </div>
 
           <div className="field">
-            <label>Do you have the Rotaract Membership Card?</label>
-            <select value={form.membership_card_status || ''} onChange={(e) => set('membership_card_status', e.target.value)}>
+            <label htmlFor="membership_card_status">Do you have the Rotaract Membership Card? <span aria-hidden="true">*</span></label>
+            <select id="membership_card_status" name="membership_card_status" required value={form.membership_card_status || ''} onChange={(e) => set('membership_card_status', e.target.value)}>
               <option value="">Select</option>
               <option value="with_me">Yes, I have it with me</option>
               <option value="paid_no_card">Yes, I paid the membership fee, but I don't have the card with me</option>
@@ -85,25 +85,25 @@ export default function SliitMemberFields({ form, set }) {
       )}
 
       <div className="field">
-        <label>Are you a Board Member?</label>
-        <div className="segment">
-          <button type="button" className={form.is_board_member ? 'active' : ''}
+        <label id="are-you-a-board-member">Are you a Board Member?</label>
+        <div className="segment" role="group" aria-labelledby="are-you-a-board-member">
+          <button type="button" aria-pressed={!!(form.is_board_member)} className={form.is_board_member ? 'active' : ''}
             onClick={() => set('is_board_member', true)}>Yes</button>
-          <button type="button" className={form.is_board_member === false ? 'active' : ''}
+          <button type="button" aria-pressed={!!(form.is_board_member === false)} className={form.is_board_member === false ? 'active' : ''}
             onClick={() => set('is_board_member', false)}>No</button>
         </div>
       </div>
 
       {form.is_board_member && (
         <>
-          <div className="field"><label>Board Member Name</label>
-            <input type="text" value={form.board_member_name || ''} onChange={(e) => set('board_member_name', e.target.value)} />
+          <div className="field"><label htmlFor="board_member_name">Board Member Name <span aria-hidden="true">*</span></label>
+            <input id="board_member_name" name="board_member_name" required type="text" value={form.board_member_name || ''} onChange={(e) => set('board_member_name', e.target.value)} />
           </div>
-          <div className="field"><label>Board Member Position</label>
-            <input type="text" value={form.board_member_position || ''} onChange={(e) => set('board_member_position', e.target.value)} />
+          <div className="field"><label htmlFor="board_member_position">Board Member Position <span aria-hidden="true">*</span></label>
+            <input id="board_member_position" name="board_member_position" required type="text" value={form.board_member_position || ''} onChange={(e) => set('board_member_position', e.target.value)} />
           </div>
-          <div className="field"><label>Board Member Contact Number</label>
-            <input type="tel" value={form.board_member_contact || ''} onChange={(e) => set('board_member_contact', e.target.value)} />
+          <div className="field"><label htmlFor="board_member_contact">Board Member Contact Number <span aria-hidden="true">*</span></label>
+            <input id="board_member_contact" name="board_member_contact" required type="tel" value={form.board_member_contact || ''} onChange={(e) => set('board_member_contact', e.target.value)} />
           </div>
         </>
       )}
@@ -111,23 +111,23 @@ export default function SliitMemberFields({ form, set }) {
       <details className="optional">
         <summary>Parent / Guardian Information <span className="hint">(optional — fill in if applicable)</span></summary>
         <div className="inner">
-          <div className="field"><label>Mother's Name</label>
-            <input type="text" value={form.mother_name || ''} onChange={(e) => set('mother_name', e.target.value)} />
+          <div className="field"><label htmlFor="mother_name">Mother's Name</label>
+            <input id="mother_name" name="mother_name" type="text" value={form.mother_name || ''} onChange={(e) => set('mother_name', e.target.value)} />
           </div>
-          <div className="field"><label>Mother's NIC</label>
-            <input type="text" value={form.mother_nic || ''} onChange={(e) => set('mother_nic', e.target.value)} />
+          <div className="field"><label htmlFor="mother_nic">Mother's NIC</label>
+            <input id="mother_nic" name="mother_nic" type="text" value={form.mother_nic || ''} onChange={(e) => set('mother_nic', e.target.value)} />
           </div>
-          <div className="field"><label>Mother's Contact</label>
-            <input type="tel" value={form.mother_contact || ''} onChange={(e) => set('mother_contact', e.target.value)} />
+          <div className="field"><label htmlFor="mother_contact">Mother's Contact</label>
+            <input id="mother_contact" name="mother_contact" type="tel" value={form.mother_contact || ''} onChange={(e) => set('mother_contact', e.target.value)} />
           </div>
-          <div className="field"><label>Father's Name</label>
-            <input type="text" value={form.father_name || ''} onChange={(e) => set('father_name', e.target.value)} />
+          <div className="field"><label htmlFor="father_name">Father's Name</label>
+            <input id="father_name" name="father_name" type="text" value={form.father_name || ''} onChange={(e) => set('father_name', e.target.value)} />
           </div>
-          <div className="field"><label>Father's NIC</label>
-            <input type="text" value={form.father_nic || ''} onChange={(e) => set('father_nic', e.target.value)} />
+          <div className="field"><label htmlFor="father_nic">Father's NIC</label>
+            <input id="father_nic" name="father_nic" type="text" value={form.father_nic || ''} onChange={(e) => set('father_nic', e.target.value)} />
           </div>
-          <div className="field"><label>Father's Contact</label>
-            <input type="tel" value={form.father_contact || ''} onChange={(e) => set('father_contact', e.target.value)} />
+          <div className="field"><label htmlFor="father_contact">Father's Contact</label>
+            <input id="father_contact" name="father_contact" type="tel" value={form.father_contact || ''} onChange={(e) => set('father_contact', e.target.value)} />
           </div>
         </div>
       </details>
@@ -141,29 +141,29 @@ export function FoodParking({ form, set }) {
   return (
     <>
       <div className="field">
-        <label>Food Preference</label>
-        <div className="segment">
-          <button type="button" className={form.food_preference === 'veg' ? 'active' : ''}
+        <label id="food-preference">Food Preference</label>
+        <div className="segment" role="group" aria-labelledby="food-preference">
+          <button type="button" aria-pressed={!!(form.food_preference === 'veg')} className={form.food_preference === 'veg' ? 'active' : ''}
             onClick={() => set('food_preference', 'veg')}>Veg</button>
-          <button type="button" className={form.food_preference === 'non_veg' ? 'active' : ''}
+          <button type="button" aria-pressed={!!(form.food_preference === 'non_veg')} className={form.food_preference === 'non_veg' ? 'active' : ''}
             onClick={() => set('food_preference', 'non_veg')}>Non-Veg</button>
         </div>
       </div>
 
       <div className="field">
-        <label>Will you be parking your vehicle inside SLIIT premises?</label>
-        <div className="segment">
-          <button type="button" className={form.parking_inside ? 'active' : ''}
+        <label id="will-you-be-parking-your-vehicle-inside-sliit-premises">Will you be parking your vehicle inside SLIIT premises?</label>
+        <div className="segment" role="group" aria-labelledby="will-you-be-parking-your-vehicle-inside-sliit-premises">
+          <button type="button" aria-pressed={!!(form.parking_inside)} className={form.parking_inside ? 'active' : ''}
             onClick={() => set('parking_inside', true)}>Yes</button>
-          <button type="button" className={form.parking_inside === false ? 'active' : ''}
+          <button type="button" aria-pressed={!!(form.parking_inside === false)} className={form.parking_inside === false ? 'active' : ''}
             onClick={() => set('parking_inside', false)}>No</button>
         </div>
       </div>
 
       {form.parking_inside && (
         <div className="field">
-          <label>Vehicle Number</label>
-          <input type="text" value={form.vehicle_number || ''} onChange={(e) => set('vehicle_number', e.target.value)} />
+          <label htmlFor="vehicle_number">Vehicle Number <span aria-hidden="true">*</span></label>
+          <input id="vehicle_number" name="vehicle_number" required type="text" value={form.vehicle_number || ''} onChange={(e) => set('vehicle_number', e.target.value)} />
         </div>
       )}
     </>

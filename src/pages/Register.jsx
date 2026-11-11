@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { ArrowUpRight, Asterisk, Check, MapPin, Shirt, Ticket } from 'lucide-react'
 import QRCode from 'qrcode'
 import { supabase } from '../lib/supabase.js'
 import { drawCard, triggerDownload } from '../lib/cardMaker.js'
-import { EVENT_AT } from '../lib/event.js'
-import Countdown from '../components/Countdown.jsx'
+import CeremonyHero from '../components/CeremonyHero'
 import SliitMemberFields from '../components/SliitMemberFields.jsx'
 import OutsideGuestFields from '../components/OutsideGuestFields.jsx'
 
@@ -21,11 +21,7 @@ function friendlyError(msg) {
   return m || 'Registration failed.'
 }
 
-function Rule({ className = '' }) {
-  return <div className={`rule-gold ${className}`} />
-}
-
-export default function Register() {
+export default function Register({ heroActive = true }) {
   const [category, setCategory] = useState(null)
   const [form, setForm] = useState({})
   const [submitting, setSubmitting] = useState(false)
@@ -34,14 +30,9 @@ export default function Register() {
   const [qrDataUrl, setQrDataUrl] = useState('')
   const [cardErr, setCardErr] = useState('')
 
-  const dateLabel = EVENT_AT
-    ? new Date(EVENT_AT).toLocaleString([], { dateStyle: 'full', timeStyle: 'short' })
-    : 'To be announced'
-  const facts = [
-    { k: 'Venue', v: 'SLIIT Auditorium' },
-    { k: 'Attire', v: 'Formal / Lounge' },
-    { k: 'Date & Time', v: dateLabel },
-  ]
+  useEffect(() => {
+    if (confirmed) window.scrollTo({ top: 0, behavior: 'instant' })
+  }, [confirmed])
 
   function set(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -119,7 +110,10 @@ function validNIC(v) {
       for (const f of needed) if (empty(form[f])) req.push(f)
     }
     if (form.parking_inside && empty(form.vehicle_number)) req.push('vehicle_number')
-    if (req.length) throw new Error('Please fill in all required fields: ' + req.join(', '))
+    if (req.length) {
+      const labels = { full_name: 'Full name', contact_number: 'Contact number', nic_number: 'NIC number', sliit_reg_number: 'SLIIT registration number', faculty: 'Faculty', year: 'Year', food_preference: 'Food preference', board_member_name: 'Board member name', board_member_position: 'Board member position', board_member_contact: 'Board member contact', affiliation: 'Affiliation', club_or_org_name: 'Club or organization', designation: 'Designation', vehicle_number: 'Vehicle number' }
+      throw new Error('Please complete: ' + req.map((field) => labels[field] || field).join(', ') + '.')
+    }
     if (form.nic_number && !validNIC(form.nic_number)) {
       throw new Error('Please enter a valid NIC — 9 digits ending in V or X, or 12 digits.')
     }
@@ -173,10 +167,10 @@ function validNIC(v) {
 
   if (confirmed) {
     return (
-      <main className="container">
+      <main className="container ceremony-confirm">
         <section className="surface-card confirm">
           <div className="confirm-head">
-            <p className="kicker">Registration confirmed</p>
+            <Check className="confirmation-check" size={30} aria-hidden="true" /><p className="kicker" role="status">Your seat is reserved</p>
             <h1 className="name">{confirmed.full_name}</h1>
             <p className="num">#{confirmed.reg_number}</p>
           </div>
@@ -206,68 +200,68 @@ function validNIC(v) {
   }
 
   return (
-    <main className="container">
-      <header className="landing-header">
-        <p className="landing-kicker">Rotaract Club of SLIIT</p>
-        <div className="landing-edition">
-          <span className="num">14</span>
-          <span className="suf">TH</span>
+    <main className="installation-page">
+      <CeremonyHero active={heroActive} />
+      <section className="registration-section" id="registration" aria-labelledby="registration-title">
+        <div className="registration-introduction">
+          <span className="poster-label"><span className="section-number">01</span> Your invitation</span>
+          <h2 id="registration-title">An evening to<br /><em>remember.</em></h2>
+          <p>The incoming President and Board of Officials invite you to celebrate a new chapter of leadership, service, and fellowship.</p>
+          <div className="registration-fact"><MapPin size={19} aria-hidden="true" /><div><span className="poster-label">The setting</span><strong>SLIIT Auditorium</strong></div></div>
+          <div className="registration-fact"><Shirt size={19} aria-hidden="true" /><div><span className="poster-label">Dress code</span><strong>Formal / Lounge</strong></div></div>
+          <div className="registration-pass-note"><Ticket size={25} aria-hidden="true" /><p>Reserve your seat below.<br />Your QR pass follows confirmation.</p></div>
+          <Asterisk className="registration-flower" size={90} strokeWidth={1} aria-hidden="true" />
         </div>
-        <h1 className="landing-title">
-          Installation<br />Ceremony
-        </h1>
-        <div className="landing-divider">
-          <Rule />
-          <span className="star">✦</span>
-          <Rule />
-        </div>
-        <Countdown target={EVENT_AT} />
-        <p className="landing-invite">
-          The incoming President and the Board of Officials graciously invite you to join us
-          for the evening. Complete the form below to reserve your seat and receive your QR check-in pass.
-        </p>
-      </header>
 
-      <div className="landing-facts">
-        {facts.map((fact) => (
-          <div key={fact.k} className="fact">
-            <p className="k">{fact.k}</p>
-            <p className="v">{fact.v}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="landing-choices">
-        <button
-          className={'choice-btn' + (category === 'sliit_member' ? ' active' : '')}
-          onClick={() => { setCategory('sliit_member'); setForm({}); setError('') }}
-        >
-          I'm a SLIIT member
-        </button>
-        <button
-          className={'choice-btn' + (category === 'outside_sliit' ? ' active' : '')}
-          onClick={() => { setCategory('outside_sliit'); setForm({}); setError('') }}
-        >
-          I'm a guest (outside SLIIT)
-        </button>
-      </div>
-
-      {(category === 'sliit_member' || category === 'outside_sliit') && (
-        <form className="card" onSubmit={handleSubmit} noValidate>
-          {category === 'sliit_member'
-            ? <SliitMemberFields form={form} set={set} />
-            : <OutsideGuestFields form={form} set={set} />}
-
-          {error && <div className="alert alert-error">{error}</div>}
-
-          <div style={{ marginTop: 18 }}>
-            <button className="btn btn-block" type="submit" disabled={submitting}>
-              {submitting ? 'Submitting…' : 'Confirm my seat'}
+        <div className="registration-panel">
+          <div className="registration-panel-heading"><span className="poster-label">RSVP · 22 November 2026</span><span className="poster-label">No. 014</span></div>
+          <h3>Make yourself part of it.</h3>
+          <p className="registration-panel-description">Choose your guest category to get started.</p>
+          <div className="registration-categories" role="group" aria-label="Guest category">
+            <button
+              type="button"
+              className={'registration-category' + (category === 'sliit_member' ? ' active' : '')}
+              aria-pressed={category === 'sliit_member'}
+              onClick={() => { setCategory('sliit_member'); setForm({}); setError('') }}
+            >
+              <span className="poster-label">01 / On campus</span>
+              <span>SLIIT member <ArrowUpRight size={19} aria-hidden="true" /></span>
+              <small>Students &amp; club members</small>
+            </button>
+            <button
+              type="button"
+              className={'registration-category' + (category === 'outside_sliit' ? ' active' : '')}
+              aria-pressed={category === 'outside_sliit'}
+              onClick={() => { setCategory('outside_sliit'); setForm({}); setError('') }}
+            >
+              <span className="poster-label">02 / Beyond campus</span>
+              <span>Invited guest <ArrowUpRight size={19} aria-hidden="true" /></span>
+              <small>Guests from outside SLIIT</small>
             </button>
           </div>
-        </form>
-      )}
 
+          {category ? (
+            <form className="registration-form" onSubmit={handleSubmit} noValidate aria-label="Seat reservation">
+              <div className="registration-form-heading"><h4>Your details</h4><span>* Required fields</span></div>
+              <div className="registration-fields">
+                {category === 'sliit_member'
+                  ? <SliitMemberFields form={form} set={set} />
+                  : <OutsideGuestFields form={form} set={set} />}
+              </div>
+              {error && <div className="alert alert-error" role="alert">{error}</div>}
+              <div className="registration-submit">
+                <p>Your details will be used for registration and event check-in.</p>
+                <button className="btn" type="submit" disabled={submitting}>
+                  {submitting ? 'Reserving your seat…' : 'Reserve my seat'} <ArrowUpRight size={18} aria-hidden="true" />
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div className="registration-empty"><span aria-hidden="true">✦</span><p>A seat for you.<br />A new chapter for us.</p><span className="poster-label">Select your category above</span></div>
+          )}
+        </div>
+      </section>
+      <footer className="ceremony-footer"><span>Rotaract Club of SLIIT</span><span>14th Installation Ceremony · 2026</span><a href="#registration">See you on the 22nd <ArrowUpRight size={14} /></a></footer>
     </main>
   )
 }

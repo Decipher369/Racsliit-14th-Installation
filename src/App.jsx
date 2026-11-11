@@ -12,7 +12,7 @@ function RegistrationPage() {
   return (
     <>
       <div inert={showIntro ? '' : undefined} aria-hidden={showIntro || undefined}>
-        <Register />
+        <Register heroActive={!showIntro} />
       </div>
       {showIntro && <RegistrationIntro onContinue={continueToRegistration} />}
     </>
