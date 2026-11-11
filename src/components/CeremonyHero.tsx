@@ -20,7 +20,7 @@ export default function CeremonyHero({ active }: { active: boolean }) {
           intro={active}
           name="Rotaract Club of SLIIT"
           year="2026"
-          roles={['Leadership. Service. Fellowship.', 'The next chapter.']}
+          roles={['Serve. Lead. Inspire.', 'The next chapter.']}
           title="14th Installation Ceremony"
           signature="XIV"
           accent="#593580"

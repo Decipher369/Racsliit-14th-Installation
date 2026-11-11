@@ -191,7 +191,7 @@ function validNIC(v) {
         <div className="registration-introduction">
           <span className="poster-label"><span className="section-number">01</span> Your invitation</span>
           <h2 id="registration-title">An evening to<br /><em>remember.</em></h2>
-          <p>The incoming President and Board of Officials invite you to celebrate a new chapter of leadership, service, and fellowship.</p>
+          <p>The incoming President and Board of Officials invite you to celebrate a new chapter with the Rotaract community.</p>
           <div className="registration-fact"><MapPin size={19} aria-hidden="true" /><div><span className="poster-label">The setting</span><strong>SLIIT Auditorium</strong></div></div>
           <div className="registration-fact"><Shirt size={19} aria-hidden="true" /><div><span className="poster-label">Dress code</span><strong>Formal / Lounge</strong></div></div>
           <div className="registration-pass-note"><Ticket size={25} aria-hidden="true" /><p>Reserve your seat below.<br />Your QR pass follows confirmation.</p></div>

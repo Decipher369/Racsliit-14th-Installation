@@ -379,7 +379,7 @@ export default function WavingPortfolioLanding({
 
   const nameU = name.toUpperCase()
   const yearU = year.toUpperCase()
-  const roleL = (ceremony && compact ? "Leadership. Service." : (roles[0] ?? "")).toUpperCase()
+  const roleL = (roles[0] ?? "").toUpperCase()
   const roleR = (ceremony && compact ? "" : (roles[1] ?? "")).toUpperCase()
   const nameT = useScramble(nameU, SCRAMBLE_AT, run, playing && !ceremony)
   const yearT = useScramble(yearU, SCRAMBLE_AT + 250, run, playing && !ceremony)
