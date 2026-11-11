@@ -50,64 +50,6 @@ export default function SliitMemberFields({ form, set }) {
         </select>
       </div>
 
-      <div className="field">
-        <label id="are-you-a-member-of-rotaract">Are you a member of Rotaract?</label>
-        <div className="segment" role="group" aria-labelledby="are-you-a-member-of-rotaract">
-          <button type="button" aria-pressed={!!(form.is_rotaract_member)} className={form.is_rotaract_member ? 'active' : ''}
-            onClick={() => set('is_rotaract_member', true)}>Yes</button>
-          <button type="button" aria-pressed={!!(form.is_rotaract_member === false)} className={form.is_rotaract_member === false ? 'active' : ''}
-            onClick={() => set('is_rotaract_member', false)}>No</button>
-        </div>
-      </div>
-
-      {form.is_rotaract_member && (
-        <>
-          <div className="field">
-            <label htmlFor="position">Position <span aria-hidden="true">*</span></label>
-            <select id="position" name="position" required value={form.position || ''} onChange={(e) => set('position', e.target.value)}>
-              <option value="">Select position</option>
-              <option value="board">Board member</option>
-              <option value="general">General member</option>
-              <option value="new">New member</option>
-            </select>
-          </div>
-
-          <div className="field">
-            <label htmlFor="membership_card_status">Do you have the Rotaract Membership Card? <span aria-hidden="true">*</span></label>
-            <select id="membership_card_status" name="membership_card_status" required value={form.membership_card_status || ''} onChange={(e) => set('membership_card_status', e.target.value)}>
-              <option value="">Select</option>
-              <option value="with_me">Yes, I have it with me</option>
-              <option value="paid_no_card">Yes, I paid the membership fee, but I don't have the card with me</option>
-              <option value="no_card">No, I don't have the membership card</option>
-            </select>
-          </div>
-        </>
-      )}
-
-      <div className="field">
-        <label id="are-you-a-board-member">Are you a Board Member?</label>
-        <div className="segment" role="group" aria-labelledby="are-you-a-board-member">
-          <button type="button" aria-pressed={!!(form.is_board_member)} className={form.is_board_member ? 'active' : ''}
-            onClick={() => set('is_board_member', true)}>Yes</button>
-          <button type="button" aria-pressed={!!(form.is_board_member === false)} className={form.is_board_member === false ? 'active' : ''}
-            onClick={() => set('is_board_member', false)}>No</button>
-        </div>
-      </div>
-
-      {form.is_board_member && (
-        <>
-          <div className="field"><label htmlFor="board_member_name">Board Member Name <span aria-hidden="true">*</span></label>
-            <input id="board_member_name" name="board_member_name" required type="text" value={form.board_member_name || ''} onChange={(e) => set('board_member_name', e.target.value)} />
-          </div>
-          <div className="field"><label htmlFor="board_member_position">Board Member Position <span aria-hidden="true">*</span></label>
-            <input id="board_member_position" name="board_member_position" required type="text" value={form.board_member_position || ''} onChange={(e) => set('board_member_position', e.target.value)} />
-          </div>
-          <div className="field"><label htmlFor="board_member_contact">Board Member Contact Number <span aria-hidden="true">*</span></label>
-            <input id="board_member_contact" name="board_member_contact" required type="tel" value={form.board_member_contact || ''} onChange={(e) => set('board_member_contact', e.target.value)} />
-          </div>
-        </>
-      )}
-
       <details className="optional">
         <summary>Parent / Guardian Information <span className="hint">(optional — fill in if applicable)</span></summary>
         <div className="inner">

@@ -62,13 +62,6 @@ function validNIC(v) {
         sliit_reg_number: form.sliit_reg_number,
         faculty: form.faculty,
         year: form.year,
-        is_rotaract_member: form.is_rotaract_member,
-        position: form.is_rotaract_member ? form.position : null,
-        membership_card_status: form.is_rotaract_member ? form.membership_card_status : null,
-        is_board_member: form.is_board_member,
-        board_member_name: form.is_board_member ? form.board_member_name : null,
-        board_member_position: form.is_board_member ? form.board_member_position : null,
-        board_member_contact: form.is_board_member ? form.board_member_contact : null,
         mother_name: form.mother_name || null,
         mother_nic: form.mother_nic || null,
         mother_contact: form.mother_contact || null,
@@ -93,14 +86,6 @@ function validNIC(v) {
         'full_name', 'contact_number', 'nic_number', 'sliit_reg_number',
         'faculty', 'year', 'food_preference',
       ]
-      if (empty(form.is_rotaract_member)) throw new Error('Please answer whether you are a Rotaract member.')
-      if (form.is_rotaract_member) {
-        if (empty(form.position)) throw new Error('Please select your Rotaract position.')
-        if (empty(form.membership_card_status)) throw new Error('Please answer the membership card question.')
-      }
-      if (form.is_board_member) {
-        needed.push('board_member_name', 'board_member_position', 'board_member_contact')
-      }
       for (const f of needed) if (empty(form[f])) req.push(f)
     } else {
       const needed = [
@@ -111,7 +96,7 @@ function validNIC(v) {
     }
     if (form.parking_inside && empty(form.vehicle_number)) req.push('vehicle_number')
     if (req.length) {
-      const labels = { full_name: 'Full name', contact_number: 'Contact number', nic_number: 'NIC number', sliit_reg_number: 'SLIIT registration number', faculty: 'Faculty', year: 'Year', food_preference: 'Food preference', board_member_name: 'Board member name', board_member_position: 'Board member position', board_member_contact: 'Board member contact', affiliation: 'Affiliation', club_or_org_name: 'Club or organization', designation: 'Designation', vehicle_number: 'Vehicle number' }
+      const labels = { full_name: 'Full name', contact_number: 'Contact number', nic_number: 'NIC number', sliit_reg_number: 'SLIIT registration number', faculty: 'Faculty', year: 'Year', food_preference: 'Food preference', affiliation: 'Affiliation', club_or_org_name: 'Club or organization', designation: 'Designation', vehicle_number: 'Vehicle number' }
       throw new Error('Please complete: ' + req.map((field) => labels[field] || field).join(', ') + '.')
     }
     if (form.nic_number && !validNIC(form.nic_number)) {
