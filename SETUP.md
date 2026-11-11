@@ -154,3 +154,29 @@ vercel deploy --prod
 - **Camera won't start in admin QR tab** → must be served over HTTPS (Vercel/Netlify provide
   this). On `localhost` most browsers allow insecure-Origin camera access.
 - **Restart the dev server after editing `.env`** — Vite only reads env at startup.
+
+## Liquid glass logo intro
+
+Run `npm install` followed by `npm run dev` and open the URL Vite prints.
+Opening `/` or `/register` shows only the Rotaract logo reveal for 5.5 seconds,
+then automatically fades into the registration page over 0.7 seconds.
+Reduced motion uses a still frame and a shorter pause. Browsers without WebGL2
+display the original logo. The supplied 21st.dev demo is available at `/demo`.
+
+The project supports TypeScript components alongside its existing JSX pages.
+Run `npm run typecheck` and `npm run build` to validate changes.
+
+- Reusable UI components: `src/components/ui` (`@/components/ui`). Keeping
+  shadcn components here matches `components.json` and keeps generated imports
+  consistent with the existing `src` layout.
+- Global styles and Tailwind v4 entry point: `src/index.css`. Tailwind is
+  enabled by `@tailwindcss/vite`; no Tailwind JavaScript config is needed.
+- Shared class-name helper: `src/lib/utils.ts` (`@/lib/utils`).
+- Intro layout: `src/components/RegistrationIntro.tsx`.
+- Logo and glass settings: `RotaractGlassReveal` in
+  `src/components/ui/liquid-glass-logo-reveal.tsx`.
+- Logo asset: `public/rotaract-sliit-logo-transparent.png`.
+
+The intro and forms can be previewed without Supabase credentials. Saving
+registrations and committee sign in require `VITE_SUPABASE_URL` and
+`VITE_SUPABASE_ANON_KEY` in `.env.local`, plus the database setup above.

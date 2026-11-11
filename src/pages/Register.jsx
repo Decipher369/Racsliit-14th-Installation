@@ -136,6 +136,7 @@ function validNIC(v) {
     }
     setSubmitting(true)
     try {
+      if (!supabase) throw new Error('Registration is not available yet. Please try again later.')
       const { data, error } = await supabase.rpc('register_guest', {
         payload: buildPayload(),
       })

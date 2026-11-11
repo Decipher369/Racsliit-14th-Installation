@@ -12,6 +12,10 @@ export default function AdminLogin() {
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
+    if (!supabase) {
+      setError('Committee sign in is not available yet. Please try again later.')
+      return
+    }
     setLoading(true)
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     setLoading(false)

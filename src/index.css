@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* ============================================================
    Royal Rooms — elegant royal-purple & gold registration SPA
    Design replicated from pleasant-ui-polish.lovable.app
@@ -58,6 +60,31 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
 
 .container { position: relative; max-width: 700px; margin: 0 auto; padding: 48px 20px 64px; }
 .admin-container { position: relative; max-width: 1120px; margin: 0 auto; padding: 40px 20px 64px; }
+
+/* Opening logo reveal, using the registration page's purple and gold palette. */
+.registration-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  background: #f5f0fa;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 700ms ease-in-out;
+}
+.registration-intro.is-fading { opacity: 0; }
+.registration-intro .intro-reveal {
+  width: min(100%, 640px);
+  height: clamp(260px, 48svh, 460px);
+  flex-shrink: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .registration-intro { transition: none; }
+}
 
 /* ---------- gold rule divider ---------- */
 .rule-gold {

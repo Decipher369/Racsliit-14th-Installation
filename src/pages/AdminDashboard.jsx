@@ -24,6 +24,10 @@ export default function AdminDashboard() {
   const [loadError, setLoadError] = useState('')
 
   useEffect(() => {
+    if (!supabase) {
+      navigate('/admin/login', { replace: true })
+      return
+    }
     supabase.auth.getSession().then(({ data }) => {
       if (!data.session) {
         navigate('/admin/login', { replace: true })
