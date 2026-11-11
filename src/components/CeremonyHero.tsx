@@ -30,7 +30,7 @@ export default function CeremonyHero({ active }: { active: boolean }) {
         />
       </div>
       <div className="ceremony-details">
-        <div className="ceremony-date"><span className="poster-label">Save the date</span><p>22 November <em>2026</em></p><span>Sunday · 4.00 PM onwards · Sri Lanka time</span></div>
+        <div className="ceremony-date"><span className="poster-label">Save the date</span><p>22 November <em>2026</em></p><span>Sunday · 3.30 PM onwards · Sri Lanka time</span></div>
         <div className="ceremony-countdown"><span className="poster-label">Until we begin</span><Countdown target={EVENT_AT} /></div>
         <a href="#registration" className="ceremony-rsvp">Be part of<br />the next chapter <ArrowDown size={22} /></a>
       </div>

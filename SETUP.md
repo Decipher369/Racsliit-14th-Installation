@@ -193,8 +193,8 @@ packages or external image assets are needed. `CeremonyHero.tsx` supplies the
 purple, cream, and gold colors and begins the poster intro after the logo fades.
 Reduced-motion preferences render a static composition.
 
-The event starts **22 November 2026 at 4:00 PM Sri Lanka time**. The countdown
-source is `src/lib/event.js`, using `2026-11-22T16:00:00+05:30`.
+The event starts **22 November 2026 at 3:30 PM Sri Lanka time**. The countdown
+source is `src/lib/event.js`, using `2026-11-22T15:30:00+05:30`.
 The visible date is fixed to the ceremony's local time rather than the visitor's
 browser time zone.
 
