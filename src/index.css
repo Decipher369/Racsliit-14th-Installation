@@ -672,6 +672,7 @@ img, video { max-width: 100%; height: auto; }
 .registration-fact svg { color: #a98137; flex-shrink: 0; }
 .registration-fact .poster-label { color: #847589; font-size: 9px; margin-bottom: 3px; }
 .registration-fact strong { font-size: 14px; font-weight: 500; }
+.registration-fact .registration-dress-code { margin: 6px 0 0; font-size: 13px; line-height: 1.7; }
 .registration-pass-note { display: flex; align-items: center; gap: 16px; border-top: 1px solid var(--poster-line); margin-top: 30px; padding-top: 24px; max-width: 340px; }
 .registration-pass-note svg { color: var(--poster-purple); flex-shrink: 0; }
 .registration-pass-note p { font-size: 12px; line-height: 1.8; color: #75677a; }
