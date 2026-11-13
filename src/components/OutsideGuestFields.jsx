@@ -1,4 +1,5 @@
 import { FoodParking } from './SliitMemberFields.jsx'
+import { affiliationLabels as AFFILIATION_LABELS } from '../lib/registrationLabels.js'
 
 const AFFILIATIONS = [
   'rotary',
@@ -8,15 +9,6 @@ const AFFILIATIONS = [
   'interact',
   'non_rotaract',
 ]
-
-const AFFILIATION_LABELS = {
-  rotary: 'Rotary',
-  district_exec_committee: 'District Executive Committee',
-  district_steering_committee: 'District Steering Committee',
-  rotaract: 'Rotaract',
-  interact: 'Interact',
-  non_rotaract: 'Non-Rotaract',
-}
 
 export default function OutsideGuestFields({ form, set }) {
   return (
