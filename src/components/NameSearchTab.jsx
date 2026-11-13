@@ -12,6 +12,7 @@ export default function NameSearchTab({ registrations, onSelect }) {
       <div className="field search-input">
         <input
           type="text"
+          aria-label="Search attendees by name"
           placeholder="Type a name to search..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -22,13 +23,13 @@ export default function NameSearchTab({ registrations, onSelect }) {
       )}
       <ul className="results-list">
         {results.map((r) => (
-          <li key={r.id} onClick={() => onSelect(r)}>
+          <li key={r.id}><button type="button" className="admin-search-result" onClick={() => onSelect(r)}>
             <strong>{r.full_name}</strong>
             <div className="meta">
               #{r.reg_number} · {r.category === 'sliit_member' ? 'SLIIT Member' : 'Outside Guest'}
               {' '}· {r.attended ? 'Checked In' : 'Not Yet'}
             </div>
-          </li>
+          </button></li>
         ))}
       </ul>
     </div>

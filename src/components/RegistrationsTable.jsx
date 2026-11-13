@@ -21,17 +21,17 @@ export default function RegistrationsTable({ registrations, onSelect }) {
   return (
     <div>
       <div className="table-filters">
-        <select value={catFilter} onChange={(e) => setCatFilter(e.target.value)}>
+        <select aria-label="Filter by category" value={catFilter} onChange={(e) => setCatFilter(e.target.value)}>
           <option value="all">All categories</option>
           <option value="sliit_member">SLIIT Members</option>
           <option value="outside_sliit">Outside Guests</option>
         </select>
-        <select value={attFilter} onChange={(e) => setAttFilter(e.target.value)}>
+        <select aria-label="Filter by attendance" value={attFilter} onChange={(e) => setAttFilter(e.target.value)}>
           <option value="all">All statuses</option>
           <option value="out">Not Yet</option>
           <option value="in">Checked In</option>
         </select>
-        <select value={sort} onChange={(e) => setSort(e.target.value)}>
+        <select aria-label="Sort registrations" value={sort} onChange={(e) => setSort(e.target.value)}>
           <option value="reg_number">Sort by Reg #</option>
           <option value="registered_at">Sort by Registered At</option>
         </select>
@@ -52,7 +52,7 @@ export default function RegistrationsTable({ registrations, onSelect }) {
           </thead>
           <tbody>
             {sorted.map((r) => (
-              <tr key={r.id} onClick={() => onSelect(r)} style={{ cursor: 'pointer' }}>
+              <tr key={r.id} tabIndex={0} aria-label={`Select ${r.full_name}, registration ${r.reg_number}`} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(r) } }} onClick={() => onSelect(r)} style={{ cursor: 'pointer' }}>
                 <td>{r.reg_number}</td>
                 <td>{r.full_name}</td>
                 <td>{r.category === 'sliit_member' ? 'SLIIT' : 'Outside'}</td>

@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { ArrowRight, LockKeyhole } from 'lucide-react'
+import clubLogo from '../assets/rotaract-sliit-logo.png'
 import { supabase } from '../lib/supabase.js'
 
 export default function AdminLogin() {
@@ -27,15 +29,13 @@ export default function AdminLogin() {
   }
 
   return (
-    <main className="auth-page">
-      <section className="auth-card">
+    <main className="auth-page admin-glass">
+      <section className="auth-card glass-surface">
+        <img className="admin-auth-logo" src={clubLogo} alt="Rotaract Club of SLIIT" />
+        <div className="admin-auth-icon"><LockKeyhole size={23} strokeWidth={1.5} /></div>
         <p className="auth-kicker">Rotaract Club of SLIIT</p>
         <h1 className="auth-title">Committee sign in</h1>
-        <div className="auth-divider">
-          <div className="rule rule-gold" />
-          <span className="star">✦</span>
-          <div className="rule rule-gold" />
-        </div>
+        <p className="admin-auth-description">Welcome back. Let’s get everyone settled in.</p>
 
         <form className="auth-form" onSubmit={handleSubmit} noValidate>
           <div className="field">
@@ -68,7 +68,7 @@ export default function AdminLogin() {
 
           <div style={{ marginTop: 20 }}>
             <button className="btn btn-block" type="submit" disabled={loading}>
-              {loading ? 'Signing in…' : 'Sign in'}
+              {loading ? 'Signing in…' : 'Sign in'} <ArrowRight size={17} />
             </button>
           </div>
         </form>

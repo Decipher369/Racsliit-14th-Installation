@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { ScanLine } from 'lucide-react'
 import { Html5Qrcode } from 'html5-qrcode'
 
 const READER_ID = 'qr-reader'
@@ -64,7 +65,10 @@ export default function QrScanTab({ onScanned, registrations }) {
 
   return (
     <div className="qr-panel">
-      <div id={READER_ID}></div>
+      <div className="admin-camera-frame">
+        <div id={READER_ID}></div>
+        {status !== 'active' && <div className="admin-camera-placeholder" aria-hidden="true"><ScanLine size={44} strokeWidth={1.1} /><span>Camera preview</span></div>}
+      </div>
       {status !== 'active' && (
         <button className="btn" onClick={start} disabled={status === 'starting'}>
           {status === 'starting' ? 'Starting camera...' : 'Start Camera / Scan QR'}

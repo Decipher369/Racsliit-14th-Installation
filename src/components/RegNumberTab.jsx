@@ -17,9 +17,10 @@ export default function RegNumberTab({ registrations, onSelect }) {
   return (
     <div>
       <div className="field">
-        <label>Registration Number</label>
+        <label htmlFor="attendee-reg-number">Registration Number</label>
         <div style={{ display: 'flex', gap: 8 }}>
           <input
+            id="attendee-reg-number"
             type="number"
             value={value}
             onChange={(e) => setValue(e.target.value)}
