@@ -10,7 +10,7 @@ The existing Vite project already supports TypeScript, Tailwind CSS v4, and the 
 
 The navbar uses React and browser APIs only. The admin uses the existing `lucide-react` dependency and club logo. It requires no additional context provider, images, remote assets, or state library.
 
-`AdminDashboard.jsx` owns the selected lookup method. It passes a controlled `active` index and three items (QR scan, name search, registration number) to the navbar. `onChange` switches the existing lookup panel and clears the selected attendee. Supabase authentication and registration updates remain in the dashboard.
+`AdminDashboard.jsx` owns the selected lookup method. It passes a controlled `active` index and four items (QR scan, name search, NIC search, registration number) to the navbar. `onChange` switches the existing lookup panel and clears the selected attendee. Supabase authentication and registration updates remain in the dashboard.
 
 The navbar supports controlled or uncontrolled selection, custom labels/icons/links, light or dark tone, optional compact mode, and optional synthesized audio (off in admin). On narrow screens it shows icons with accessible names; the lookup panel repeats the active method as a visible heading. Arrow keys, Home and End change the selected item. The layout stacks check-in panels and converts the guest table to cards on mobile.
 

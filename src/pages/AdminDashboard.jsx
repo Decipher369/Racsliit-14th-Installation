@@ -6,6 +6,7 @@ import clubLogo from '../assets/rotaract-sliit-logo.png'
 import { supabase } from '../lib/supabase.js'
 import QrScanTab from '../components/QrScanTab.jsx'
 import NameSearchTab from '../components/NameSearchTab.jsx'
+import NicSearchTab from '../components/NicSearchTab.jsx'
 import RegNumberTab from '../components/RegNumberTab.jsx'
 import CheckInConfirmCard from '../components/CheckInConfirmCard.jsx'
 import RegistrationsTable from '../components/RegistrationsTable.jsx'
@@ -13,12 +14,14 @@ import RegistrationsTable from '../components/RegistrationsTable.jsx'
 const NAV_ITEMS = [
   { label: 'QR Scan', icon: <QrCode size={18} />, fx: 'pop' },
   { label: 'Search by Name', icon: <Search size={18} />, fx: 'spin' },
+  { label: 'Search by NIC', icon: <Search size={18} />, fx: 'spin' },
   { label: 'Registration Number', icon: <Hash size={18} />, fx: 'wave' },
 ]
-const TAB_KEYS = ['qr', 'name', 'reg']
+const TAB_KEYS = ['qr', 'name', 'nic', 'reg']
 const TAB_DESCRIPTIONS = {
   qr: 'Scan the QR code on an attendee’s registration pass.',
   name: 'Find an attendee by typing all or part of their name.',
+  nic: 'Find an attendee by typing all or part of their NIC number.',
   reg: 'Enter the number printed on an attendee’s registration pass.',
 }
 
@@ -159,6 +162,7 @@ export default function AdminDashboard() {
               <p className="admin-panel-description">{TAB_DESCRIPTIONS[tab]}</p>
               {tab === 'qr' && <QrScanTab registrations={registrations} onScanned={handleSelect} />}
               {tab === 'name' && <NameSearchTab registrations={registrations} onSelect={handleSelect} />}
+              {tab === 'nic' && <NicSearchTab registrations={registrations} onSelect={handleSelect} />}
               {tab === 'reg' && <RegNumberTab registrations={registrations} onSelect={handleSelect} />}
             </div>
             <div className="admin-attendee-panel" aria-live="polite">
