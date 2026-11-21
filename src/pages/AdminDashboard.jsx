@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { QrCode, Search, Hash, Users, CircleCheck, GraduationCap, Globe, Leaf, Utensils, ArrowUpRight, LogOut, RefreshCw, ScanLine } from 'lucide-react'
+import { QrCode, Search, Hash, Users, CircleCheck, GraduationCap, Globe, Leaf, Utensils, ArrowUpRight, LogOut, RefreshCw, ScanLine, Download } from 'lucide-react'
 import { LiquidNavbar } from '../components/ui/liquid-glass-navbar'
 import clubLogo from '../assets/rotaract-sliit-logo.png'
 import { supabase } from '../lib/supabase.js'
@@ -35,6 +35,7 @@ export default function AdminDashboard() {
   const [toast, setToast] = useState('')
   const [loadError, setLoadError] = useState('')
   const [refreshing, setRefreshing] = useState(false)
+  const [exporting, setExporting] = useState(false)
 
   useEffect(() => {
     if (!supabase) {
@@ -91,6 +92,33 @@ export default function AdminDashboard() {
     }
   }
 
+  async function downloadWorkbook() {
+    setExporting(true)
+    setLoadError('')
+    try {
+      const rows = []
+      const pageSize = 1000
+      for (let start = 0; ; start += pageSize) {
+        const { data, error } = await supabase.from('registrations').select('*').order('reg_number').range(start, start + pageSize - 1)
+        if (error) throw error
+        rows.push(...(data || []))
+        if (!data || data.length < pageSize) break
+      }
+      const { createRegistrationWorkbook } = await import('../lib/registrationWorkbook.js')
+      const buffer = await createRegistrationWorkbook(rows)
+      const url = URL.createObjectURL(new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }))
+      const link = document.createElement('a')
+      link.href = url
+      link.download = `installation-registrations-${new Date().toISOString().slice(0, 10)}.xlsx`
+      link.click()
+      setTimeout(() => URL.revokeObjectURL(url), 60000)
+    } catch (err) {
+      setLoadError('Failed to export registrations: ' + (err.message || 'unknown error'))
+    } finally {
+      setExporting(false)
+    }
+  }
+
   function handleSelect(row) {
     setSelected(row)
   }
@@ -121,6 +149,7 @@ export default function AdminDashboard() {
           <span className="admin-workspace-label">Committee workspace</span>
           <div className="admin-actions">
             <Link className="glass-action" to="/register">View form <ArrowUpRight size={15} /></Link>
+            <button className="glass-action" onClick={downloadWorkbook} disabled={exporting}><Download size={15} /><span>{exporting ? 'Preparing…' : 'Download spreadsheet'}</span></button>
             <button className="glass-action" onClick={async () => {
               await supabase.auth.signOut()
               navigate('/admin/login')
