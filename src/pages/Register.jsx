@@ -7,6 +7,8 @@ import CeremonyHero from '../components/CeremonyHero'
 import SliitMemberFields from '../components/SliitMemberFields.jsx'
 import OutsideGuestFields from '../components/OutsideGuestFields.jsx'
 
+const REGISTRATION_OPEN = false
+
 function friendlyError(msg) {
   const m = msg || ''
   if (m.includes('INVALID_NIC') || m.includes('invalid NIC format') || m.includes('invalid_nic')) {
@@ -106,6 +108,7 @@ function validNIC(v) {
 
   async function handleSubmit(e) {
     e.preventDefault()
+    if (!REGISTRATION_OPEN) return
     setError('')
     try {
       validate()
@@ -201,7 +204,9 @@ function validNIC(v) {
         <div className="registration-panel">
           <div className="registration-panel-heading"><span className="poster-label">RSVP · 22 November 2026</span><span className="poster-label">No. 014</span></div>
           <h3>Make yourself part of it.</h3>
-          <p className="registration-panel-description">Choose your guest category to get started.</p>
+          <p className="registration-panel-description">
+            {REGISTRATION_OPEN ? 'Choose your guest category to get started.' : 'Registration is closed. Thank you for your interest.'}
+          </p>
           <div className="registration-categories" role="group" aria-label="Guest category">
             <button
               type="button"
@@ -236,8 +241,9 @@ function validNIC(v) {
               {error && <div className="alert alert-error" role="alert">{error}</div>}
               <div className="registration-submit">
                 <p>Your details will be used for registration and event check-in.</p>
-                <button className="btn" type="submit" disabled={submitting}>
-                  {submitting ? 'Reserving your seat…' : 'Reserve my seat'} <ArrowUpRight size={18} aria-hidden="true" />
+                <button className={'btn' + (!REGISTRATION_OPEN ? ' registration-closed' : '')} type="submit" disabled={!REGISTRATION_OPEN || submitting}>
+                  {!REGISTRATION_OPEN ? 'Registration closed' : submitting ? 'Reserving your seat…' : 'Reserve my seat'}
+                  {REGISTRATION_OPEN && <ArrowUpRight size={18} aria-hidden="true" />}
                 </button>
               </div>
             </form>
