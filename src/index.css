@@ -709,6 +709,8 @@ img, video { max-width: 100%; height: auto; }
 .registration-submit p { color: #847589; font-size: 11px; line-height: 1.7; margin-bottom: 18px; }
 .registration-submit .btn { display: flex; align-items: center; justify-content: space-between; gap: 18px; border-radius: 2px; width: 100%; min-height: 54px; background: #593580; background-image: none; text-transform: none; letter-spacing: .025em; font-size: 14px; }
 .registration-submit .btn:hover { background: #442560; }
+.registration-submit .btn.registration-closed,
+.registration-submit .btn.registration-closed:hover { background: #a7a4aa; color: #fff; box-shadow: none; cursor: not-allowed; }
 .registration-form .alert { margin-top: 24px; font-size: 13px; border-radius: 2px; overflow-wrap: anywhere; }
 .ceremony-footer { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin: 0 48px; padding: 28px 0; border-top: 1px solid var(--poster-line); font-size: 10px; color: #847589; }
 .ceremony-footer a { display: flex; align-items: center; gap: 8px; }

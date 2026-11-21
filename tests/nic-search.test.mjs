@@ -7,11 +7,13 @@ import { createServer } from 'vite'
 
 let server
 let NicSearchTab
+let RegistrationsTable
 let searchByNic
 
 before(async () => {
   server = await createServer({ server: { middlewareMode: true }, appType: 'custom' })
   ;({ default: NicSearchTab, searchByNic } = await server.ssrLoadModule('/src/components/NicSearchTab.jsx'))
+  ;({ default: RegistrationsTable } = await server.ssrLoadModule('/src/components/RegistrationsTable.jsx'))
 })
 after(async () => { await server?.close() })
 
@@ -35,6 +37,14 @@ test('renders an identified NIC search field and selectable attendee results', (
   const html = renderToStaticMarkup(createElement(NicSearchTab, { registrations, onSelect() {} }))
   assert.match(html, /aria-label="Search attendees by NIC"/)
   assert.match(html, /type="text"/)
+})
+
+test('shows each attendee NIC in the admin registrations table', () => {
+  const html = renderToStaticMarkup(createElement(RegistrationsTable, { registrations, onSelect() {} }))
+  assert.match(html, /<th>NIC<\/th>/)
+  assert.match(html, /data-label="NIC">123456789V<\/td>/)
+  assert.match(html, /data-label="NIC">200012345678<\/td>/)
+  assert.match(html, /data-label="NIC">Not provided<\/td>/)
 })
 
 test('makes NIC lookup a separate admin check-in method', async () => {

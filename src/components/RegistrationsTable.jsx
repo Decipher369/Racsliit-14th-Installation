@@ -51,6 +51,7 @@ export default function RegistrationsTable({ registrations, onSelect }) {
             <tr>
               <th onClick={() => setSort('reg_number')}>Reg #</th>
               <th>Name</th>
+              <th>NIC</th>
               <th>Category</th>
               <th>Club / Organization</th>
               <th>Contact</th>
@@ -66,6 +67,7 @@ export default function RegistrationsTable({ registrations, onSelect }) {
               <tr key={r.id} tabIndex={0} aria-label={`Select ${r.full_name}, registration ${r.reg_number}`} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(r) } }} onClick={() => onSelect(r)} style={{ cursor: 'pointer' }}>
                 <td data-label="Reg #">{r.reg_number}</td>
                 <td data-label="Name">{r.full_name}</td>
+                <td data-label="NIC">{r.nic_number || 'Not provided'}</td>
                 <td data-label="Category">{r.category === 'sliit_member' ? 'SLIIT' : 'Outside'}</td>
                 <td data-label="Club / Org">{r.category === 'sliit_member' ? 'SLIIT' : <>
                   {r.club_or_org_name || 'Not provided'}
@@ -84,7 +86,7 @@ export default function RegistrationsTable({ registrations, onSelect }) {
               </tr>
             ))}
             {sorted.length === 0 && (
-              <tr><td colSpan={10} style={{ textAlign: 'center', color: 'var(--muted)' }}>No registrations.</td></tr>
+              <tr><td colSpan={11} style={{ textAlign: 'center', color: 'var(--muted)' }}>No registrations.</td></tr>
             )}
           </tbody>
         </table>
